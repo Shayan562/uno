@@ -2,18 +2,18 @@ import random
 
 
 class Deck:
-    def __init__(self):
-        self.cards=self.generateStandardDeck()
+    def __init__(self)->None:
+        self.cards=self.generateDeck()
 
 
-    def generateStandardDeck(self) -> list:
+    def generateDeck(self) -> list:
         deck=[]
         for i in ['red','green','blue','yellow']:
-            for j in range(10):#append regular cards
+            for j in range(10):#append regular cards ->2 of each
                 deck.append(Card('numbered',i,str(j)))
                 deck.append(Card('numbered',i,str(j)))
 
-            for j in ['skip','reverse','draw']:#append special cards
+            for j in ['skip','reverse','draw']:#special cards
                 deck.append(Card('special',i,j))
                 deck.append(Card('special',i,j))
 
@@ -32,7 +32,7 @@ class Deck:
 
 
 class Card:
-    def __init__(self,cType,color,value):
+    def __init__(self,cType,color,value)->None:
         self.cType=cType
         self.color=color
         self.value=value
@@ -43,7 +43,12 @@ class Card:
 
 
     def isValid(self, card)->bool:
-        if(card.color==self.color):
+        ''' Following the classic rules; the colors match or the card is numbered and the numbers match.
+            Can't put one skip over another different colored skip.
+            Any card can be placed on top of the wild card except for another wild card'''
+        if(self.color=='black' and card.color!='black'):
+            return True
+        if(card.color==self.color):#colors match
             return True
         if(card.cType=='numbered' and card.value==self.value):
             return True
