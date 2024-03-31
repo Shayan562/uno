@@ -39,7 +39,9 @@ class Player:
                     # drawnCard=drawCard(self,1)
                     self.updateCards(drawCard(self,1))
                     #draw card
-
+            
+            #cant place only wild card. add condition
+            #option to press uno(calls function)
             card=self.hand[move]
             if(currCard.isValid(card)):
                 self.hand.pop(move)

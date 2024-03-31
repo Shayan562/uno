@@ -4,12 +4,33 @@ import random
 class Table:
     def __init__(self, players) -> None:
         self.players=players
-        self.uno=dict
+        self.uno=set()
         self.deck=deck.Deck()
         self.deal()
         self.currentCard=[deck.Card('numbered',random.choice(['red','green','blue','yellow']),random.randint(0,9))]
         self.currentPlayer=0
         self.rev=False
+
+    def sayUNO(self)->None:
+        #will be executed right after the user has added a card to deck(same turn + updated card count)
+        player=self.players[self.currentPlayer]
+        if(self.currentPlayer not in self.uno and player.numCards==1):#player has only one card left in hand
+            self.uno.add(self.currentPlayer)
+    
+    def removeUNO(self)->None:
+        if(self.currentPlayer in self.uno):
+            self.uno.remove(self.currentPlayer)
+
+    def saidUNO(self)->bool:
+        return(self.currentPlayer in self.uno)
+
+    def unoViolation(self)->bool:#cant put wild on last turn
+        player=self.players[self.currentPlayer]
+        return (player.numCards<2 and not self.saidUNO())
+
+    def winningCondition(self):
+        player=self.players[self.currentPlayer]
+        return (player.numCards==0 and self.saidUNO())
 
     # def initPlayer(self, playerNames) -> list:
     #     players=[]
